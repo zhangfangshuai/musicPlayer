@@ -12,9 +12,12 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,             // 所有以js结尾的都用babel-loader处理
-                exclude: /node_modules/,   // 除了该文件夹下的
+                test: /\.js$/,
+                exclude: /node_modules/,
                 loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'es2015']
+                }
             }, {
                 test: /\.css$/,
                 loader: 'style!css!postcss',
