@@ -1,5 +1,11 @@
-// var react = require('react');  // es5导入方式
+// var React = require('react');
 import React from  'react'   // es6导入方式
-import "./index.less"   // webpack中定义了less的处理,它会帮我们把编译后的css插入到文档中
+import { render } from 'react-dom';
+import Hello from './components/hello'
+import "./less/index.less"
 
-console.log(react.version);
+// console.log('React version ', React.version);
+render {
+    <Hello></Hello>,
+    document.getElementById('container')
+};
