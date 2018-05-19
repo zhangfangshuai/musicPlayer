@@ -1,25 +1,23 @@
-// var React = require('react');  // es6之前的导入方式
 import React from  'react';
 import { render } from 'react-dom';
 import { AppContainer } from "react-hot-loader"
-import Root from './root'
+import App from './app'
 
-// render方法将组件(参数1)挂载到真实的DOM元素(参数2)上
 render (
     <AppContainer>
-        <Root />
+        <App />
     </AppContainer>,
-    document.getElementById('root')
+    document.getElementById('app')
 );
 
 if (module.hot) {
-    module.hot.accept('./root', () => {
-        const NewRoot = require('./root').default;
+    module.hot.accept('./app', () => {
+        const NewApp = require('./app').default;
         render (
             <AppContainer>
-                <NewRoot />
+                <NewApp />
             </AppContainer>,
-            document.getElementById('root')
+            document.getElementById('app')
         )
     })
 }

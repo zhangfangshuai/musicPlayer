@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -34,16 +36,20 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',   // 将es6转成es5
-                query: {
+                query:
+                  {
                     presets: ['react','es2015']
-                }
-            }, {
+                  }
+            },
+            {
                 test: /\.css$/,
                 loader: 'style!css!postcss'
-            }, {
+            },
+            {
                 test: /\.json$/,
                 loader: 'json-loader'
-            }, {
+            },
+            {
                 test: /\.less/,
                 loader: 'style-loader!css-loader!less-loader'
             }
