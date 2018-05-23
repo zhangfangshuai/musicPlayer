@@ -5,8 +5,37 @@
     height: 100vh;
     background: rgba(0, 0, 20, 0.4);
     z-index: 300;
+    opacity: 0;
     display: none;
 }
+.mask-show {
+    display: block;
+    animation: fadeIn 1s ease-out;
+    animation-iteration-count:1;
+    animation-fill-mode:forwards;
+    -webkit-animation:fadeIn 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-fill-mode:forwards;
+}
+.mask-hide {
+    animation: fadeOut 1s ease-out;
+    animation-iteration-count:1;
+    animation-fill-mode:forwards;
+    -webkit-animation:fadeOut 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-fill-mode:forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0;}
+    to { opacity: 1;}
+}
+@keyframes fadeOut {
+    from { opacity: 1;}
+    to { opacity: 0; display: none;}
+}
+
+
 .components-menu {
     width: 3.8rem;
     height: 100vh;
@@ -74,4 +103,30 @@
         text-align: center;
         color: #768998;
     }
+}
+.menu-show {
+  animation: slideIn 1s ease-out;
+  animation-iteration-count:1;
+  animation-fill-mode:forwards;
+  -webkit-animation:slideIn 1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode:forwards;
+}
+.menu-hide {
+  animation: slideOut 1s ease-out;
+  animation-iteration-count:1;
+  animation-fill-mode:forwards;
+  -webkit-animation:slideOut 1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode:forwards;
+}
+
+@keyframes slideIn {
+    from {left: -4rem;}
+    to {left: 0rem;}
+}
+
+@keyframes slideOut {
+    from {left: 0rem;}
+    to {left: -4rem;}
 }

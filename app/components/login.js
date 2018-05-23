@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import '../less/login.less'
 
 class Login extends React.Component {
@@ -15,13 +16,13 @@ class Login extends React.Component {
                     <img src="./static/images/password.png" />
                     <input type="password" value="20042281" ref={(input) => { this.code; }}/>
                 </div>
-                <div onClick={this.login}>登录</div>
+                <div><Link to="/app">登录</Link></div>
             </div>
         );
     }
 
     login(e) {
-        console.log('user want to login')
+        console.log('TODO: user rights check')
     }
 };
 
