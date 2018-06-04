@@ -1,40 +1,43 @@
-import React from 'react'
-import '../less/common.less'
-import '../less/watch.less'
+import React from 'react';
+import '../less/income.less';
+import Title from '../components/title';
+import CarOption from '../components/carOption';
+import SingleDatePicker from '../components/singleDatePicker';
+import DutyPerson from '../components/dutyPerson';
 
 class Income extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
+
+    getInitialState() {
+    		return {
+    		}
+  	}
 
     render() {
         return (
             <div className="container">
                 <section className="section-box">
-                    <div className="wrap">
-                        <div className="sec-title">营收概况</div>
-                        <div class="carType-box">
-                            <p class="car-type inc-ct active" data-type='0'>全部</p>
-                            <p class="car-type inc-ct" data-type='1'>电车</p>
-                            <p class="car-type inc-ct" data-type='2'>燃油车</p>
-                        </div>
-                        <div class="singleDatePicker">
-                            <div class="preDateBtn inc-predate">前一天</div>
-                            <div class="showDate">
-                                <input type="text" id="appDateTime1" class="appDateTime" onfocus="this.blur();" />
-                                <span class="showWeek1"></span>
+                    <div className="wrap clearTopGap">
+                        <Title name="营收概况" />
+                        <CarOption selfClass="inc" />
+                        <SingleDatePicker selfId="1" selfClass="inc"/>
+                        <div className="scroll-cont">
+                            <div className="headLine">
+                                <p>指标名称</p>
+                                <p>昨日</p>
+                                <p>前日</p>
+                                <p>同比</p>
+                                <p>同比增幅</p>
                             </div>
-                            <div class="nextDateBtn inc-nextdate">后一天</div>
+                            <ul className="itemVal incVal"></ul>
                         </div>
-                        <div class="headLine">
-                            <p>指标名称</p>
-                            <p>昨日</p>
-                            <p>前日</p>
-                            <p>同比</p>
-                            <p>同比增幅</p>
-                        </div>
-                        <ul class="itemVal incVal"></ul>
-                        <div class="responsiblePerson-box">
-                            <p class="phoneBubble inc-phoneBubble"><a href=""></a></p>
-                            <p class="responsiblePerson"></p>
-                        </div>
+                        <DutyPerson selfClass="inc" />
                     </div>
                 </section>
 

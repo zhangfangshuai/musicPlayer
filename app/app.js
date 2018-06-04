@@ -61,6 +61,7 @@ class App extends React.Component {
 
     render() {
         let view = this.state.currentItem.page;
+        view = 'income';
         return (
             <div>
                 <Header />
@@ -83,7 +84,6 @@ class App extends React.Component {
         );
     }
 }
-
 
 
 class Root extends React.Component {
