@@ -53,7 +53,7 @@
         .user-icon {
             width: 1.1rem;
             height: 1.1rem;
-            background: url(/static/images/icon_user_default.png);
+            background: url(/static/images/portrait.png);
             -webkit-background-size: cover;
             background-size: cover;
             margin-left: .5rem;
@@ -93,6 +93,11 @@
                 vertical-align: middle;
             }
         }
+        .focus {
+            span {
+                color: #09CA65;
+            }
+        }
     }
     .logout {
         position: absolute;
@@ -105,18 +110,18 @@
     }
 }
 .menu-show {
-  animation: slideIn 1s ease-out;
+  animation: slideIn 0.7s ease-out;
   animation-iteration-count:1;
   animation-fill-mode:forwards;
-  -webkit-animation:slideIn 1s;
+  -webkit-animation:slideIn 0.7s;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-fill-mode:forwards;
 }
 .menu-hide {
-  animation: slideOut 1s ease-out;
+  animation: slideOut 0.5s ease-out;
   animation-iteration-count:1;
   animation-fill-mode:forwards;
-  -webkit-animation:slideOut 1s;
+  -webkit-animation:slideOut 0.5s;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-fill-mode:forwards;
 }

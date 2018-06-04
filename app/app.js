@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Router, HashRouter, hashHistory, Route, Redirect, Switch, Link } from 'react-router-dom'
 import Pubsub from 'pubsub-js'
+import { MENU_LIST } from './config/menu_config';
 
-import Login from './components/login'
 import Header from './components/header'
 import Menu from './components/menu'
+import Login from './pages/login'
 import Watch from './pages/watch'
 import Kpis from './pages/kpis'
+import Inc from './pages/income'
 
 
 class App extends React.Component {
@@ -16,11 +18,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'watch',
             menuState: {
                 toggled: false,
                 firstIn: true
             },
+            currentItem: MENU_LIST[0],
             user: {
                 nickname: '张国光',
                 picture: ''
@@ -44,20 +46,39 @@ class App extends React.Component {
                 }
             })
         });
+        Pubsub.subscribe('GO', (msg, item) => {
+            this.setState({
+                currentItem: item,
+            })
+        });
     }
 
     componentWillUnmount() {
         Pubsub.unsubscribe('TOGGLE_MENU');
         PubSub.unsubscribe('HIDE_MENU');
+        PubSub.unsubscribe('GO');
     }
 
     render() {
+        let view = this.state.currentItem.page;
         return (
             <div>
                 <Header />
-                <Menu menuState={this.state.menuState} user={this.state.user} />
-                { this.state.page == 'watch' && <Watch /> }
-                { this.state.page == 'kpis' && <Kpis /> }
+                <Menu
+                    menuState={this.state.menuState}
+                    user={this.state.user}
+                    cItem={this.state.currentItem}
+                ></Menu>
+                { view == 'watch' && <Watch /> }
+                { view == 'kpis' && <Kpis /> }
+                { view == 'user' && <Watch /> }
+                { view == 'app' && <Watch /> }
+                { view == 'orders' && <Watch /> }
+                { view == 'site' && <Watch /> }
+                { view == 'cars' && <Watch /> }
+                { view == 'service' && <Watch /> }
+                { view == 'operation' && <Watch /> }
+                { view == 'income' && <Inc /> }
             </div>
         );
     }
