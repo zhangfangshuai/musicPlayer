@@ -1,4 +1,5 @@
 import React from 'react';
+import PubSub from 'pubsub-js';
 import '../less/singleDatePicker.less';
 
 class SingleDatePicker extends React.Component {
@@ -13,24 +14,41 @@ class SingleDatePicker extends React.Component {
         }
     }
 
-    preDate() {
-        this.setState((offset) => ({
-            offset: offset-1,
-            pickedDate: getDateOffset(offset),
-            week: getWeekOffset(offset)
-        }))
+    updateOffset(x) {
+        this.setState((prevState) => {  // 函数参数处理setState的异步回调问题
+            return {
+                offset: prevState.offset + x
+            }
+        })
+    }
+
+    updateDate(type = 'prev') {
+        type === 'prev' ? this.updateOffset(-1) : this.state.pickedDate < new Date().format('yyyyMMdd') ? this.updateOffset(1) : '';
+        this.setState((prevState) => {
+            return {
+                pickedDate: getDateOffset(prevState.offset),
+                week: getWeekOffset(prevState.offset)
+            }
+        })
+        this.setState((prevState) => {
+            var params = {
+                date: prevState.pickedDate,
+                cartype: 0
+            };
+            this.state.pickedDate != prevState.pickedDate && PubSub.publish('REQUEST', params)
+        })
     }
 
 
     render() {
         return (
             <div className="singleDatePicker">
-                <div className={`preDateBtn ${this.state.class}-predate`} onClick={this.preDate}>前一天</div>
+                <div className="preDateBtn" onClick={this.updateDate.bind(this, 'prev')}>前一天</div>
                 <div className="showDate">
-                    <input id={`appDateTime${this.state.id}`} className="appDateTime" onfocus="this.blur();" value={this.state.pickedDate}/>
-                    <span className={`showWeek${this.state.id}`}>{this.state.week}</span>
+                    <input className="appDateTime" onfocus="this.blur();" value={this.state.pickedDate}/>
+                    <span>{this.state.week}</span>
                 </div>
-                <div className={`nextDateBtn ${this.state.class}-nextdate`} onClick={this.nextDate}>后一天</div>
+                <div className="nextDateBtn" onClick={this.updateDate.bind(this, 'next')}>后一天</div>
             </div>
         )
     }

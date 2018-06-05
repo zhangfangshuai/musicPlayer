@@ -51,12 +51,23 @@ class App extends React.Component {
                 currentItem: item,
             })
         });
+        Pubsub.subscribe('REQUEST', (msg, params) => {
+            console.log(params);
+            var url = buildUrl(params);
+            axios.get(url).then(function(response){
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        })
     }
 
     componentWillUnmount() {
         Pubsub.unsubscribe('TOGGLE_MENU');
-        PubSub.unsubscribe('HIDE_MENU');
-        PubSub.unsubscribe('GO');
+        Pubsub.unsubscribe('HIDE_MENU');
+        Pubsub.unsubscribe('GO');
+        Pubsub.unsubscribe('REQUEST');
     }
 
     render() {

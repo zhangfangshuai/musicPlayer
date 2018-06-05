@@ -1,6 +1,14 @@
+var version = '4.0.1';
+
+// let http = 'http://39.107.226.244/';
+var http = 'http://bi.shouqiev.com/';
+// let http = 'http://172.27.3.68:8080/SQBIServer-web/';
+
+
+
 /**
  * Author: zhangfs by Atom
- * Func: 日期格式化函数
+ * Func: 日期格式化原生属性拓展
  */
 Date.prototype.format = function (fmt) {
     var o = {
@@ -50,9 +58,24 @@ function updateWeek(dateStr, offset){
 /**
  * Created: zhangfs by Atom
  * Time: 2018/06/04
- * Func: 字符创转日期格式
+ * Func: 字符创转日期格式, 长度不足8位需要补齐以便适配safari
  */
 function str2Date(str) {
     str = (str.length == 8) ? (str.slice(0,4)+'/'+str.slice(4,6)+'/'+str.slice(6,8)) : (str.slice(0,4)+'/'+str.slice(4,6)+'/01');
     return new Date(str);
+}
+
+
+/**
+ * Created: zhangfs by Atom
+ * Time: 2018/06/05
+ * Func: url生成
+ */
+function buildUrl(params) {
+    var str = '';
+    for(let i in params) {
+        str += i + '=' + params[i] + '&';
+    }
+    str += 'token=' + sessionStorage.token;
+    var url = http + 'mobile/' + params.interface + '?' + str;
 }
