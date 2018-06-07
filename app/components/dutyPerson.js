@@ -6,7 +6,7 @@ class DutyPerson extends React.Component {
     render() {
         return (
             <div className="dutyPerson-box">
-                <p className={`phoneBubble ${this.props.selfClass}-phoneBubble`}>
+                <p className="phoneBubble">
                     <a href=""></a>
                 </p>
                 <p className="dutyPerson"></p>

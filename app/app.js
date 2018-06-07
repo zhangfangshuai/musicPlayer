@@ -5,7 +5,6 @@ import { Router, HashRouter, hashHistory, Route, Redirect, Switch, Link } from '
 import Pubsub from 'pubsub-js'
 import { MENU_LIST } from './config/menu_config';
 
-import Header from './components/header'
 import Menu from './components/menu'
 import Login from './pages/login'
 import Watch from './pages/watch'
@@ -24,7 +23,7 @@ class App extends React.Component {
             },
             currentItem: MENU_LIST[0],
             user: {
-                nickname: '张国光',
+                nickname: sessionStorage.nickname,
                 picture: ''
             }
         }
@@ -52,13 +51,24 @@ class App extends React.Component {
             })
         });
         Pubsub.subscribe('REQUEST', (msg, params) => {
-            console.log(params);
-            var url = buildUrl(params);
+            console.log(params, 'app-pubsub');
+            var url = buildGetUrl(params);
             axios.get(url).then(function(response){
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
+                if (response.data.code == '401') {
+                    Tip.success('身份信息失效');
+                    // window.location.href = "login";
+                } else if (response.data.code == '200'){
+
+                } else {
+                    console.log(params, response.data.code);
+                }
+            }).catch(function(error) {
+                var errObj = {
+                    title: '请求错误',
+                    content: error,
+                    mainBtn: '我知道了'
+                }
+                Tip.popups(errObj);
             })
         })
     }
@@ -75,7 +85,6 @@ class App extends React.Component {
         view = 'income';
         return (
             <div>
-                <Header />
                 <Menu
                     menuState={this.state.menuState}
                     user={this.state.user}
@@ -104,7 +113,7 @@ class Root extends React.Component {
             <HashRouter history={hashHistory}>
                 <Switch>
                     <Route exact path='/' component={ () => <Redirect to='/login' /> } />
-                    <Route path='/login' component={Login} />
+                    <Route exact path='/login' component={Login} />
                     <Route exact path='/app' component={App} />
                 </Switch>
             </HashRouter>

@@ -31,13 +31,12 @@ class Menu extends React.Component {
     }
 
     render() {
-        let Items = this.state.menuList.map((item) => {
+        let rightsList = this.state.menuList.filter((item) => {
+            return item.right;
+        });
+        let Items = rightsList.map((item) => {
             return (
-                <ListItem
-                  key={item.id}
-                  data={item}
-                  focus={this.props.cItem == item}
-                ></ListItem>
+                <ListItem key={item.id} data={item} focus={this.props.cItem == item} ></ListItem>
             )
         });
         let MS = this.props.menuState;

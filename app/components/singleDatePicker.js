@@ -15,7 +15,7 @@ class SingleDatePicker extends React.Component {
     }
 
     updateOffset(x) {
-        this.setState((prevState) => {  // 函数参数处理setState的异步回调问题
+        this.setState((prevState) => {
             return {
                 offset: prevState.offset + x
             }
@@ -31,11 +31,7 @@ class SingleDatePicker extends React.Component {
             }
         })
         this.setState((prevState) => {
-            var params = {
-                date: prevState.pickedDate,
-                cartype: 0
-            };
-            this.state.pickedDate != prevState.pickedDate && PubSub.publish('REQUEST', params)
+            this.state.pickedDate != prevState.pickedDate && this.props.handleDate(prevState.pickedDate, "date")
         })
     }
 
