@@ -1,5 +1,6 @@
 import React from 'react';
 import PubSub from 'pubsub-js';
+import PropTypes from 'prop-types';
 import '../less/singleDatePicker.less';
 
 class SingleDatePicker extends React.Component {
@@ -7,7 +8,6 @@ class SingleDatePicker extends React.Component {
         super(props);
         this.state = {
             id: this.props.selfId,
-            class: this.props.class,
             offset: -1,
             pickedDate: getDateOffset(-1),
             week: getWeekOffset(-1)
@@ -41,13 +41,17 @@ class SingleDatePicker extends React.Component {
             <div className="singleDatePicker">
                 <div className="preDateBtn" onClick={this.updateDate.bind(this, 'prev')}>前一天</div>
                 <div className="showDate">
-                    <input className="appDateTime" onfocus="this.blur();" value={this.state.pickedDate}/>
+                    <div className="appDateTime" >{this.state.pickedDate}</div>
                     <span>{this.state.week}</span>
                 </div>
                 <div className="nextDateBtn" onClick={this.updateDate.bind(this, 'next')}>后一天</div>
             </div>
         )
     }
+}
+
+SingleDatePicker.propTypes = {
+    handleDate: PropTypes.func
 }
 
 export default SingleDatePicker;

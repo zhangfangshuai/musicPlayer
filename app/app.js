@@ -4,12 +4,14 @@ import PropTypes from 'prop-types'
 import { Router, HashRouter, hashHistory, Route, Redirect, Switch, Link } from 'react-router-dom'
 import Pubsub from 'pubsub-js'
 import { MENU_LIST } from './config/menu_config';
+import { CITY_LIST } from './config/city_config';
 
 import Menu from './components/menu'
+import Picker from './components/picker'
 import Login from './pages/login'
 import Watch from './pages/watch'
 import Kpis from './pages/kpis'
-import Inc from './pages/income'
+import Income from './pages/income'
 
 
 class App extends React.Component {
@@ -17,11 +19,16 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentMenu: MENU_LIST[0],
             menuState: {
                 toggled: false,
                 firstIn: true
             },
-            currentItem: MENU_LIST[0],
+            currentCity: CITY_LIST[0],
+            cityState: {
+                toggled: false,
+                firstIn: true,
+            },
             user: {
                 nickname: sessionStorage.nickname,
                 picture: ''
@@ -41,65 +48,63 @@ class App extends React.Component {
         Pubsub.subscribe('HIDE_MENU', () => {
             this.setState({
                 menuState: {
-                    toggled: false
+                    toggled: false,
+                    firstIn: false
                 }
             })
         });
         Pubsub.subscribe('GO', (msg, item) => {
-            this.setState({
-                currentItem: item,
-            })
+            this.setState({ currentMenu: item });
         });
-        Pubsub.subscribe('REQUEST', (msg, params) => {
-            console.log(params, 'app-pubsub');
-            var url = buildGetUrl(params);
-            axios.get(url).then(function(response){
-                if (response.data.code == '401') {
-                    Tip.success('身份信息失效');
-                    // window.location.href = "login";
-                } else if (response.data.code == '200'){
-
-                } else {
-                    console.log(params, response.data.code);
+        Pubsub.subscribe('TOGGLE_CITY', () => {
+            this.setState({
+                cityState: {
+                    toggled: true,
+                    firstIn: false
                 }
-            }).catch(function(error) {
-                var errObj = {
-                    title: '请求错误',
-                    content: error,
-                    mainBtn: '我知道了'
-                }
-                Tip.popups(errObj);
             })
         })
+        Pubsub.subscribe('HIDE_CITY', () => {
+            this.setState({
+                cityState: {
+                    toggled: false,
+                    firstIn: false
+                }
+            })
+        });
+        Pubsub.subscribe('CITY_SELECTED', (msg, item) => {
+            this.setState((prevState) => {
+                prevState.currentCity = item;
+            });
+        });
     }
 
     componentWillUnmount() {
         Pubsub.unsubscribe('TOGGLE_MENU');
         Pubsub.unsubscribe('HIDE_MENU');
         Pubsub.unsubscribe('GO');
-        Pubsub.unsubscribe('REQUEST');
+        Pubsub.unsubscribe('TOGGLE_CITY');
+        Pubsub.unsubscribe('HIDE_CITY');
+        Pubsub.unsubscribe('CITY_SELECTED');
     }
 
     render() {
-        let view = this.state.currentItem.page;
-        view = 'income';
+        let view = this.state.currentMenu.id;
+        view = 10;
         return (
             <div>
-                <Menu
-                    menuState={this.state.menuState}
-                    user={this.state.user}
-                    cItem={this.state.currentItem}
-                ></Menu>
-                { view == 'watch' && <Watch /> }
-                { view == 'kpis' && <Kpis /> }
-                { view == 'user' && <Watch /> }
-                { view == 'app' && <Watch /> }
-                { view == 'orders' && <Watch /> }
-                { view == 'site' && <Watch /> }
-                { view == 'cars' && <Watch /> }
-                { view == 'service' && <Watch /> }
-                { view == 'operation' && <Watch /> }
-                { view == 'income' && <Inc /> }
+                <Menu menuState={this.state.menuState} user={this.state.user} cItem={this.state.currentMenu} />
+                <Picker cityState={this.state.cityState} />
+                { view == 2 && <Watch city={this.state.currentCity}/> }
+                { view == 3 && <Kpis city={this.state.currentCity}/> }
+                { view == 4 && <Watch city={this.state.currentCity}/> }
+                { view == 64 && <Watch city={this.state.currentCity}/> }
+                { view == 5 && <Watch city={this.state.currentCity}/> }
+                { view == 6 && <Watch city={this.state.currentCity}/> }
+                { view == 7 && <Watch city={this.state.currentCity}/> }
+                { view == 8 && <Watch city={this.state.currentCity}/> }
+                { view == 9 && <Watch city={this.state.currentCity}/> }
+                { view == 10 && <Income city={this.state.currentCity}/> }
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../less/carOption.less';
+import PropTypes from 'prop-types';
 
 class CarOption extends React.Component {
     constructor(props) {
@@ -25,6 +26,10 @@ class CarOption extends React.Component {
             </div>
         )
     }
+}
+
+CarOption.propTypes = {
+    handleCar: PropTypes.func
 }
 
 export default CarOption;

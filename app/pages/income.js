@@ -1,11 +1,11 @@
 import React from 'react';
 import Pubsub from 'pubsub-js';
 import '../less/income.less';
-import Header from '../components/header'
 import Title from '../components/title';
 import CarOption from '../components/carOption';
 import SingleDatePicker from '../components/singleDatePicker';
 import DutyPerson from '../components/dutyPerson';
+import Header from '../components/header';
 
 
 class Income extends React.Component {
@@ -13,10 +13,11 @@ class Income extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            city: this.props.city,
             incomeData: [],
             incomeReq : {
                 interface: 'getInComeDetail',
-                cityId: 1,
+                cityId: this.props.city.value,
                 carType: 0,
                 dateId: getDateOffset(-1)
             }
@@ -37,11 +38,21 @@ class Income extends React.Component {
         })
     }
 
-    render() {
+
+    componentWillMount() {
         axiosGet(this.state.incomeReq, (res) => {
-              this.state.incomeData = res;
-              this.setState((prevState) => { this.state.incomeData = res });
+            this.setState({ incomeData: res });
         }, false)
+    }
+
+    componentDidUpdate() {
+        console.log(this.props.city, 'DidUpdate');
+        axiosGet(this.state.incomeReq, (res) => {
+            // 做setState会导致死循环
+        }, false)
+    }
+
+    render() {
         if (this.state.incomeData.length != 0) {
             var incomeItems = this.state.incomeData.data.map((item) => {
                 return (
@@ -58,7 +69,7 @@ class Income extends React.Component {
 
         return (
             <div className="container">
-                <Header />
+                <Header city={this.props.city}/>
                 <section className="section-box">
                     <div className="wrap clearTopGap">
                         <Title name="营收概况" />
@@ -82,6 +93,5 @@ class Income extends React.Component {
         );
     }
 }
-
 
 export default Income;

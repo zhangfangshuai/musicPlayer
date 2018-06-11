@@ -8,8 +8,8 @@ class Header extends React.Component {
             <div className="components-header">
                 <img className="menu-icon" src="/static/images/icon_menu.png" alt="" onClick={this.toggleMenu.bind(this)}/>
                 <img className="logo-icon" src="/static/images/gofun.png" alt="" />
-                <div className="location" onClick={this.selectCity.bind(this)}>北京</div>
-                <img src="/static/images/icon_location.png" alt="" className="location-icon" />
+                <div className="location" onClick={this.toggleCity.bind(this)}>{this.props.city.text}</div>
+                <img className="location-icon" src="/static/images/icon_location.png" alt="" onClick={this.toggleCity.bind(this)}/>
             </div>
         );
     }
@@ -19,9 +19,9 @@ class Header extends React.Component {
         Pubsub.publish('TOGGLE_MENU');
     }
 
-    selectCity(e) {
+    toggleCity(e) {
         e.stopPropagation();
-        console.log('selectCity');
+        Pubsub.publish('TOGGLE_CITY');
     }
 };
 

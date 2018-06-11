@@ -1,4 +1,4 @@
-export const MENU_LIST = [
+export var MENU_LIST = [
     {
         id: 2,
         name: '实时监控',

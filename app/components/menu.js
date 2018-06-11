@@ -1,12 +1,14 @@
 import React from 'react';
 import Pubsub from 'pubsub-js';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { MENU_LIST } from '../config/menu_config';
-import ListItem from '../components/listitem';
+import ListItem from './listitem';
 import '../less/menu.less';
 
 
 class Avatar extends React.Component {
+
     render() {
         return (
             <div className="user-msg">
@@ -15,6 +17,9 @@ class Avatar extends React.Component {
             </div>
         )
     }
+}
+Avatar.propTypes = {
+    user: PropTypes.object
 }
 
 

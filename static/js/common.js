@@ -72,7 +72,7 @@ function str2Date(str) {
  * Func: url生成
  */
 function buildGetUrl(param) {
-    if (param.interface) {
+    try {
         var baseUrl = http + 'mobile/' + param.interface;
         var url = "";
         for(let i in param) {
@@ -87,8 +87,8 @@ function buildGetUrl(param) {
         }
         url = url.length ? baseUrl + '?' + url : baseUrl;
         return url;
-    } else {
-        Tip.success('请求接口缺失');
+    } catch (e) {
+        Tip.error(e);
         return;
     }
 }
